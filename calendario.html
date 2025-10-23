@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calendario - Cache First App</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- iOS Support - Configuración Básica -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Mi App">
+
+  <!-- iOS Icons - Usando los logos existentes -->
+  <link rel="apple-touch-icon" href="/assets/192.png">
+  <link rel="apple-touch-icon-precomposed" href="/assets/512.png">
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+  <!-- Navegación -->
+  <nav class="bg-blue-600 text-white p-4 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">Mi App</h1>
+      <div class="space-x-4">
+        <a href="index.html" class="hover:underline">Home</a>
+        <a href="calendario.html" class="hover:underline font-semibold">Calendario</a>
+        <a href="formulario.html" class="hover:underline">Formulario</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenido Principal -->
+  <main class="container mx-auto mt-10 p-6">
+    <div class="bg-white rounded-lg shadow-md p-8">
+      <h2 class="text-3xl font-bold text-blue-600 mb-6 text-center">Calendario de Eventos</h2>
+      <div id="calendar"></div>
+    </div>
+  </main>
+
+  <script src="main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        events: [
+          {
+            title: 'Reunión de equipo',
+            start: '2025-10-23T10:00:00',
+            end: '2025-10-23T11:00:00'
+          },
+          {
+            title: 'Presentación de proyecto',
+            start: '2025-10-25T14:00:00',
+            end: '2025-10-25T16:00:00'
+          },
+          {
+            title: 'Capacitación',
+            start: '2025-10-28',
+            allDay: true
+          }
+        ],
+        locale: 'es'
+      });
+      calendar.render();
+    });
+  </script>
+</body>
+
+</html>

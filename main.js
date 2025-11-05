@@ -6,7 +6,7 @@ console.log('main.js cargado correctamente');
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
-      .register('/sw.js')
+      .register('/PWA-CalendarSelect/sw.js', { scope: '/PWA-CalendarSelect/' })
       .then(registration => {
         console.log('Service Worker registrado exitosamente:', registration.scope);
       })

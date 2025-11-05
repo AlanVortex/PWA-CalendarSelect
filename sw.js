@@ -3,18 +3,21 @@
 const APP_SHELL_CACHE = 'app-shell-v1';
 const DYNAMIC_CACHE = 'dynamic-cache-v1';
 
+// Base path para GitHub Pages - IMPORTANTE: cambiar según tu repositorio
+const BASE_PATH = '/PWA-CalendarSelect';
+
 // Recursos del App Shell (Cache Only)
 const APP_SHELL_RESOURCES = [
-  '/',
-  '/index.html',
-  '/calendario.html',
-  '/formulario.html',
-  '/main.js',
-  '/manifest.json',
+  `${BASE_PATH}/`,
+  `${BASE_PATH}/index.html`,
+  `${BASE_PATH}/calendario.html`,
+  `${BASE_PATH}/formulario.html`,
+  `${BASE_PATH}/main.js`,
+  `${BASE_PATH}/manifest.json`,
   'https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4',
   // iOS Icons
-  '/assets/192.png',
-  '/assets/512.png'
+  `${BASE_PATH}/assets/192.png`,
+  `${BASE_PATH}/assets/512.png`
 ];
 
 // ============================================
@@ -74,11 +77,12 @@ self.addEventListener('fetch', event => {
   // ============================
   // Para las páginas HTML y main.js siempre desde caché
   if (
-    url.pathname === '/' ||
-    url.pathname === '/index.html' ||
-    url.pathname === '/calendario.html' ||
-    url.pathname === '/formulario.html' ||
-    url.pathname === '/main.js' ||
+    url.pathname === `${BASE_PATH}/` ||
+    url.pathname === `${BASE_PATH}/index.html` ||
+    url.pathname === `${BASE_PATH}/calendario.html` ||
+    url.pathname === `${BASE_PATH}/formulario.html` ||
+    url.pathname === `${BASE_PATH}/main.js` ||
+    url.pathname === BASE_PATH ||
     url.href.includes('@tailwindcss/browser')
   ) {
     event.respondWith(

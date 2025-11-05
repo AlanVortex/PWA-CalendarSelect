@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Local - Verificación de Rutas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .test-item {
+      background: white;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .success { color: green; font-weight: bold; }
+    .error { color: red; font-weight: bold; }
+    .info { color: blue; }
+    h1 { color: #333; }
+    code { 
+      background: #eee; 
+      padding: 2px 6px; 
+      border-radius: 3px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 Verificación de Rutas para GitHub Pages</h1>
+  <p class="info">Este archivo verifica que todas las rutas estén correctamente configuradas para <code>/PWA-CalendarSelect/</code></p>
+  
+  <div id="results"></div>
+
+  <script>
+    const BASE_PATH = '/PWA-CalendarSelect';
+    const results = document.getElementById('results');
+    
+    async function testURL(url, description) {
+      try {
+        const response = await fetch(url, { method: 'HEAD' });
+        const status = response.ok ? '✅ OK' : `❌ Error ${response.status}`;
+        const className = response.ok ? 'success' : 'error';
+        
+        results.innerHTML += `
+          <div class="test-item">
+            <span class="${className}">${status}</span> - ${description}<br>
+            <code>${url}</code>
+          </div>
+        `;
+      } catch (error) {
+        results.innerHTML += `
+          <div class="test-item">
+            <span class="error">❌ Error</span> - ${description}<br>
+            <code>${url}</code><br>
+            <small>${error.message}</small>
+          </div>
+        `;
+      }
+    }
+
+    async function runTests() {
+      results.innerHTML = '<h2>Ejecutando pruebas...</h2>';
+      
+      // Pruebas de archivos locales
+      await testURL('manifest.json', 'Manifest.json');
+      await testURL('main.js', 'main.js');
+      await testURL('sw.js', 'Service Worker');
+      await testURL('index.html', 'index.html');
+      await testURL('calendario.html', 'calendario.html');
+      await testURL('formulario.html', 'formulario.html');
+      await testURL('assets/192.png', 'Icono 192x192');
+      await testURL('assets/512.png', 'Icono 512x512');
+      
+      // Verificar Service Worker
+      if ('serviceWorker' in navigator) {
+        results.innerHTML += `
+          <div class="test-item">
+            <span class="success">✅ Service Worker API disponible</span>
+          </div>
+        `;
+        
+        try {
+          const registration = await navigator.serviceWorker.getRegistration();
+          if (registration) {
+            results.innerHTML += `
+              <div class="test-item">
+                <span class="success">✅ Service Worker registrado</span><br>
+                <code>Scope: ${registration.scope}</code>
+              </div>
+            `;
+          } else {
+            results.innerHTML += `
+              <div class="test-item">
+                <span class="info">ℹ️ Service Worker no registrado aún</span>
+              </div>
+            `;
+          }
+        } catch (error) {
+          results.innerHTML += `
+            <div class="test-item">
+              <span class="error">❌ Error al verificar Service Worker</span><br>
+              <small>${error.message}</small>
+            </div>
+          `;
+        }
+      }
+      
+      results.innerHTML += `
+        <div class="test-item" style="background: #e3f2fd;">
+          <h3>📋 Instrucciones:</h3>
+          <ol>
+            <li>Si todas las pruebas pasan ✅, haz commit y push</li>
+            <li>Espera a que GitHub Pages se actualice (1-2 minutos)</li>
+            <li>Visita: <code>https://alanvortex.github.io/PWA-CalendarSelect/</code></li>
+            <li>Abre DevTools → Application → Clear site data</li>
+            <li>Recarga la página (Ctrl+Shift+R)</li>
+            <li>Verifica que el Service Worker se registre correctamente</li>
+          </ol>
+        </div>
+      `;
+    }
+
+    runTests();
+  </script>
+</body>
+</html>
